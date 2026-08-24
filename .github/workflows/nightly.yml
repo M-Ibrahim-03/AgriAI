@@ -2,7 +2,7 @@ name: Nightly District Risk Refresh
 
 on:
   schedule:
-    - cron: "30 20 * * *"   # 02:00 IST
+    - cron: "30 20 * * *"
   workflow_dispatch:
 
 permissions:
@@ -28,7 +28,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run district risk pipeline
-        run: python pipeline/run_district.py --refresh
+        run: PYTHONPATH=. python pipeline/run_district.py --refresh
 
       - name: Copy geojson artefacts into web/public
         run: cp artefacts/risk*.geojson web/public/
