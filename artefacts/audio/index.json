@@ -1,0 +1,29 @@
+{
+  "green_none": {
+    "original": "green_none.mp3"
+  },
+  "green_soon": {
+    "original": "green_soon.mp3"
+  },
+  "amber_now": {
+    "aaj_shaam": "amber_now__aaj_shaam.mp3",
+    "kal_subah_6_baje": "amber_now__kal_subah_6_baje.mp3",
+    "mangalvaar_subah": "amber_now__mangalvaar_subah.mp3",
+    "parso_subah": "amber_now__parso_subah.mp3"
+  },
+  "amber_wait": {
+    "aaj_shaam": "amber_wait__aaj_shaam.mp3",
+    "kal_subah_6_baje": "amber_wait__kal_subah_6_baje.mp3",
+    "mangalvaar_subah": "amber_wait__mangalvaar_subah.mp3",
+    "parso_subah": "amber_wait__parso_subah.mp3"
+  },
+  "red_now": {
+    "aaj_shaam": "red_now__aaj_shaam.mp3",
+    "kal_subah_6_baje": "red_now__kal_subah_6_baje.mp3",
+    "mangalvaar_subah": "red_now__mangalvaar_subah.mp3",
+    "parso_subah": "red_now__parso_subah.mp3"
+  },
+  "red_nowindow": {
+    "original": "red_nowindow.mp3"
+  }
+}

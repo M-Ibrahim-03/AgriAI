@@ -21,6 +21,8 @@ interface Feature {
     reason: string;
     confidence: number;
     confidence_label: string;
+    spray_start_hour: number | null;
+    spray_end_hour: number | null;
   };
 }
 

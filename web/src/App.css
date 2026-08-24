@@ -379,3 +379,39 @@ html, body, #root {
   color: #92400e;
   line-height: 1.4;
 }
+
+
+/* ── Listen button ──────────────────────────────────────── */
+
+.info-listen-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 56px;
+  margin-top: 12px;
+  padding: 14px 20px;
+  background: #1e40af;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.info-listen-btn:hover {
+  background: #1e3a8a;
+}
+
+.info-listen-btn:active {
+  background: #172554;
+}
+
+.info-listen-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}

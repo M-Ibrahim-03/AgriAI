@@ -1,0 +1,8 @@
+{
+  "green_none":  "Aaj aapke khet mein jhulsa rog ka khatra kam hai. Koi chhidkaav ki zaroorat nahi. Hum roz jaanch karte rahenge.",
+  "green_soon":  "Abhi khatra kam hai, lekin agle teen din mein mausam badal sakta hai. Taiyaar rahiye.",
+  "amber_now":   "Saavdhan. Aapke khet mein jhulsa rog ka khatra badh raha hai. SPRAY_WINDOW par chhidkaav kar lijiye.",
+  "amber_wait":  "Saavdhan. Khatra badh raha hai, lekin abhi baarish ho sakti hai. Chhidkaav ke liye SPRAY_WINDOW ka intezaar kijiye.",
+  "red_now":     "Chetavni. Aapke khet mein jhulsa rog ka bahut zyada khatra hai. SPRAY_WINDOW par turant chhidkaav kijiye.",
+  "red_nowindow":"Chetavni. Bahut zyada khatra hai, lekin agle teen din mausam kharab hai. Apne KVK adhikari se salah lijiye."
+}
