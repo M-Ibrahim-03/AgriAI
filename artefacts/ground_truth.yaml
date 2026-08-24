@@ -1,0 +1,134 @@
+- lat: 31.3260
+  lon: 75.5762
+  place: "Jalandhar, Punjab"
+  date: 2024-01-10
+  label: 1
+  radius_km: 20
+  confidence: high
+  source: "PAU advisory / Dense fog and prolonged wetness"
+
+- lat: 31.5271
+  lon: 75.9080
+  place: "Hoshiarpur, Punjab"
+  date: 2024-01-08
+  label: 1
+  radius_km: 15
+  confidence: high
+  source: "News reports / Severe crop damage reported"
+
+- lat: 30.3398
+  lon: 76.3869
+  place: "Patiala, Punjab"
+  date: 2024-01-05
+  label: 1
+  radius_km: 20
+  confidence: high
+  source: "State Ag Dept / Widespread field rotting"
+
+- lat: 22.9500
+  lon: 88.0833
+  place: "Dhaniakhali (Hooghly), West Bengal"
+  date: 2025-02-21
+  label: 1
+  radius_km: 15
+  confidence: medium
+  source: "News reports / Unseasonal rainfall triggered dhwasa rog"
+
+- lat: 23.2324
+  lon: 87.8615
+  place: "East Burdwan, West Bengal"
+  date: 2025-02-20
+  label: 1
+  radius_km: 20
+  confidence: high
+  source: "State Agriculture Dept / Extensive fungal attack"
+
+- lat: 27.1767
+  lon: 78.0081
+  place: "Agra, Uttar Pradesh"
+  date: 2025-01-15
+  label: 1
+  radius_km: 25
+  confidence: high
+  source: "KVK alerts / Persistent cold wave and morning dew"
+
+- lat: 27.3770
+  lon: 79.5693
+  place: "Farrukhabad, Uttar Pradesh"
+  date: 2025-01-18
+  label: 1
+  radius_km: 15
+  confidence: high
+  source: "ICAR-CPRI / Fog-induced blight onset"
+
+- lat: 27.0506
+  lon: 79.9199
+  place: "Kannauj, Uttar Pradesh"
+  date: 2025-01-16
+  label: 1
+  radius_km: 20
+  confidence: medium
+  source: "Local extension bulletins / Rapid canopy destruction"
+
+- lat: 31.1048
+  lon: 77.1734
+  place: "Shimla, Himachal Pradesh"
+  date: 2025-07-20
+  label: 1
+  radius_km: 10
+  confidence: high
+  source: "ICAR-CPRI summer crop bulletin / High monsoon moisture"
+
+- lat: 31.5892
+  lon: 76.9182
+  place: "Mandi, Himachal Pradesh"
+  date: 2025-07-25
+  label: 1
+  radius_km: 15
+  confidence: medium
+  source: "State horticulture updates / Hill potato crop infected"
+
+- lat: 13.0068
+  lon: 76.1004
+  place: "Hassan, Karnataka"
+  date: 2025-08-15
+  label: 1
+  radius_km: 15
+  confidence: high
+  source: "Kharif crop reports / High monsoon rainfall"
+
+- lat: 13.4325
+  lon: 77.7274
+  place: "Chikkaballapur, Karnataka"
+  date: 2025-08-12
+  label: 1
+  radius_km: 20
+  confidence: medium
+  source: "University of Agricultural Sciences advisory / Favorable RH"
+
+- lat: 25.2000
+  lon: 85.5300
+  place: "Nalanda, Bihar"
+  date: 2025-01-22
+  label: 1
+  radius_km: 20
+  confidence: medium
+  source: "State extension notes / Low temperatures and cloudy days"
+
+- lat: 24.1724
+  lon: 72.4346
+  place: "Banaskantha, Gujarat"
+  date: 2025-01-15
+  label: 0
+  radius_km: 30
+  confidence: high
+  source: "Major potato belt baseline / Low humidity and dry winds"
+
+- lat: 30.9009
+  lon: 75.8572
+  place: "Ludhiana, Punjab"
+  date: 2024-11-20
+  label: 0
+  radius_km: 25
+  confidence: high
+  source: "Pre-winter baseline / Dry conditions and zero reported cases"

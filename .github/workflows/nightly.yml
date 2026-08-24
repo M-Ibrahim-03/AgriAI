@@ -1,0 +1,42 @@
+name: Nightly District Risk Refresh
+
+on:
+  schedule:
+    - cron: "30 20 * * *"   # 02:00 IST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nightly-risk
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run district risk pipeline
+        run: python pipeline/run_district.py --refresh
+
+      - name: Copy geojson artefacts into web/public
+        run: cp artefacts/risk*.geojson web/public/
+
+      - name: Commit and push updated artefacts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add artefacts/risk*.geojson web/public/risk*.geojson
+          git diff --cached --quiet || git commit -m "Nightly risk refresh [skip ci]"
+          git push
