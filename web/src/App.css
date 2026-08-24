@@ -520,3 +520,145 @@ html, body, #root {
   font-size: 16px;
   margin-top: 24px;
 }
+
+/* ── Home screen ────────────────────────────────────────── */
+
+.home {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f9fafb;
+}
+
+.home-status {
+  padding: 48px 24px 32px;
+  text-align: center;
+}
+
+.home-label {
+  font-size: 16px;
+  font-weight: 500;
+  opacity: 0.85;
+  margin-bottom: 8px;
+}
+
+.home-headline {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.home-spray {
+  font-size: 18px;
+  line-height: 1.5;
+  opacity: 0.9;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.home-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 20px 16px;
+}
+
+.home-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 80px;
+  padding: 16px 8px;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.home-tile:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.home-tile:active {
+  background: #e5e7eb;
+}
+
+.home-tile-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.home-explain {
+  display: none;
+  padding: 20px 24px;
+  margin: 0 16px 20px;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #374151;
+}
+
+.home-explain-open {
+  display: block;
+}
+
+.home-explain p {
+  margin-bottom: 12px;
+}
+
+.home-explain p:last-child {
+  margin-bottom: 0;
+}
+
+.home-footer {
+  margin-top: auto;
+  padding: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.home-loading,
+.home-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 16px;
+  padding: 24px;
+  text-align: center;
+}
+
+.home-loading .skeleton-spinner {
+  width: 48px;
+  height: 48px;
+}
+
+.home-loading .skeleton-text {
+  font-size: 18px;
+}
+
+.home-error .error-icon {
+  font-size: 56px;
+}
+
+.home-error .error-title {
+  font-size: 24px;
+}
+
+.home-error .error-msg {
+  font-size: 18px;
+}
