@@ -50,7 +50,7 @@ def fetch_nodes(
     params = {
         "latitude": lats,
         "longitude": lons,
-        "hourly": "relative_humidity_2m,temperature_2m",
+        "hourly": "relative_humidity_2m,temperature_2m,precipitation,wind_speed_10m",
         "past_days": past_days,
         "forecast_days": 7,
         "timezone": "auto",
@@ -73,6 +73,8 @@ def fetch_nodes(
         out[node] = {
             "rh": hourly.get("relative_humidity_2m", []),
             "temp": hourly.get("temperature_2m", []),
+            "precip": hourly.get("precipitation", []),
+            "wind": hourly.get("wind_speed_10m", []),
             "time": hourly.get("time", []),
         }
 

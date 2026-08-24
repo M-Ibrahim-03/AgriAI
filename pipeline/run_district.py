@@ -5,7 +5,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import subprocess
 import sys
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 from adapters.weather import (
@@ -16,6 +19,8 @@ from adapters.weather import (
 )
 from engine.interpolate import bilinear
 from engine.score import DiseaseModel, band, score_cell
+from engine.spray_window import find_spray_windows, best_window_before_risk, describe_window
+from adapters.ledger import append_run
 
 # ── Configuration ────────────────────────────────────────────────────
 
@@ -30,6 +35,8 @@ CONFIG = {
 }
 
 MODEL = DiseaseModel(name="Potato Late Blight")
+
+_IST = timezone(timedelta(hours=5, minutes=30))
 
 CACHE_PATH = Path("artefacts/weather_cache.json")
 OUTPUT_PATH = Path("artefacts/risk.geojson")
@@ -139,6 +146,32 @@ def main() -> None:
         colour = band(risk_result.risk)
         band_counts[colour] = band_counts.get(colour, 0) + 1
 
+        # -- Spray window --
+        _precip = interp.get("precip", [])
+        _wind = interp.get("wind", [])
+        _spray_wins = find_spray_windows(_precip, _wind, interp["temp"])
+
+        _hours_until = len(rh_days) * 24
+        for _d in range(len(rh_days)):
+            _r = score_cell(rh_days[: _d + 1], temp_days[: _d + 1], MODEL)
+            if _r.risk >= 0.45:
+                _hours_until = _d * 24
+                break
+
+        _best = best_window_before_risk(_spray_wins, _hours_until)
+
+        if _best is not None:
+            _day_names = [f"Day {i + 1}" for i in range(len(rh_days))]
+            _spray_text = describe_window(_best, _day_names)
+            _spray_start: int | None = _best.start_index
+            _spray_end: int | None = _best.end_index
+            _spray_quality: float | None = _best.quality
+        else:
+            _spray_text = "No good spray window in the next 3 days"
+            _spray_start = None
+            _spray_end = None
+            _spray_quality = None
+
         features.append({
             "type": "Feature",
             "geometry": {
@@ -151,6 +184,10 @@ def main() -> None:
                 "accumulated_dsv": risk_result.accumulated_dsv,
                 "criterion_alert": risk_result.criterion_alert,
                 "reason": risk_result.reason,
+                "spray_start_hour": _spray_start,
+                "spray_end_hour": _spray_end,
+                "spray_quality": _spray_quality,
+                "spray_text": _spray_text,
             },
         })
 
@@ -164,6 +201,42 @@ def main() -> None:
 
     # 6. Summary
     print(_summary(band_counts, len(features)))
+
+    # 7. Spray-window summary
+    _spray_24h = sum(
+        1 for f in features
+        if f["properties"]["spray_start_hour"] is not None
+        and f["properties"]["spray_start_hour"] < 24
+    )
+    print(f"Cells with spray window in next 24h: {_spray_24h}/{len(features)}")
+
+    # 8. Ledger record
+    _sha = os.environ.get("GITHUB_SHA")
+    if not _sha:
+        try:
+            _sha = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                capture_output=True, text=True, timeout=5,
+            ).stdout.strip()
+        except Exception:
+            _sha = "unknown"
+    if not _sha:
+        _sha = "unknown"
+
+    _run_id = datetime.now(_IST).isoformat()
+    _mv = f"rh{MODEL.rh_threshold:.0f}_h{MODEL.min_wet_hours}_t{MODEL.min_temp_c:.0f}_c{MODEL.consecutive_days}_s{MODEL.spray_threshold_dsv}"
+
+    _ledger_hash = append_run({
+        "run_id": _run_id,
+        "district": CONFIG["district"],
+        "model_version": _mv,
+        "engine_git_sha": _sha,
+        "cells_total": len(features),
+        "cells_amber": band_counts.get("amber", 0),
+        "cells_red": band_counts.get("red", 0),
+        "red_cell_ids": [],
+    })
+    print(f"Ledger hash: {_ledger_hash}")
 
 
 if __name__ == "__main__":
