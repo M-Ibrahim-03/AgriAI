@@ -23,6 +23,7 @@ interface Feature {
     confidence_label: string;
     spray_start_hour: number | null;
     spray_end_hour: number | null;
+    spray_text: string;
   };
 }
 
@@ -33,6 +34,8 @@ interface GeoJSON {
 interface MapPanelProps {
   geojson: GeoJSON | null;
   onSelect: (feature: Feature | null) => void;
+  loading: boolean;
+  error: string | null;
 }
 
 function Legend() {
@@ -41,29 +44,32 @@ function Legend() {
       <div className="legend-title">Risk Band</div>
       <div className="legend-item">
         <span className="legend-swatch" style={{ background: BAND_COLORS.green }} />
-        <span>Green — Low risk</span>
+        <svg className="legend-icon" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#166534" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        <span>Safe</span>
       </div>
       <div className="legend-item">
         <span className="legend-swatch" style={{ background: BAND_COLORS.amber }} />
-        <span>Amber — Monitor</span>
+        <svg className="legend-icon" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M12 2L2 20h20L12 2z" stroke="#78350f" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        <span>Watch</span>
       </div>
       <div className="legend-item">
         <span className="legend-swatch" style={{ background: BAND_COLORS.red }} />
-        <span>Red — High risk</span>
+        <svg className="legend-icon" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M12 2L2 20h20L12 2z" stroke="#991b1b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/><circle cx="12" cy="17" r="0.5" fill="#991b1b" stroke="#991b1b" strokeWidth="1.5"/></svg>
+        <span>Act now</span>
       </div>
       <div className="legend-divider" />
       <div className="legend-item">
         <span className="legend-swatch legend-swatch-hatched" />
-        <span>Hatched = lower confidence</span>
+        <span>Lower confidence</span>
       </div>
       <div className="legend-note">
-        We're interpolating across disagreeing weather stations.
+        Hatched = interpolating across disagreeing weather stations.
       </div>
     </div>
   );
 }
 
-export default function MapPanel({ geojson, onSelect }: MapPanelProps) {
+export default function MapPanel({ geojson, onSelect, loading, error }: MapPanelProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
 
@@ -111,7 +117,6 @@ export default function MapPanel({ geojson, onSelect }: MapPanelProps) {
     const fillId = "risk-fill";
     const hatchBorderId = "risk-hatch-border";
 
-    // Clean up old layers
     for (const id of [hatchBorderId, fillId]) {
       if (map.getLayer(id)) map.removeLayer(id);
     }
@@ -129,7 +134,6 @@ export default function MapPanel({ geojson, onSelect }: MapPanelProps) {
       },
     });
 
-    // Fill layer — low-confidence cells get reduced opacity
     map.addLayer({
       id: fillId,
       type: "fill",
@@ -152,7 +156,6 @@ export default function MapPanel({ geojson, onSelect }: MapPanelProps) {
       },
     });
 
-    // Dashed border for low-confidence cells
     map.addLayer({
       id: hatchBorderId,
       type: "line",
@@ -165,7 +168,6 @@ export default function MapPanel({ geojson, onSelect }: MapPanelProps) {
       },
     });
 
-    // Click handler
     map.on("click", fillId, (e: maplibregl.MapMouseEvent & { features?: maplibregl.MapGeoJSONFeature[] }) => {
       const feature = e.features?.[0] as Feature | undefined;
       if (feature) {
@@ -186,6 +188,19 @@ export default function MapPanel({ geojson, onSelect }: MapPanelProps) {
     <div className="map-wrapper">
       <div ref={containerRef} className="map-container" />
       <Legend />
+      {loading && (
+        <div className="skeleton-overlay">
+          <div className="skeleton-spinner" />
+          <span className="skeleton-text">Loading risk data…</span>
+        </div>
+      )}
+      {error && (
+        <div className="error-overlay">
+          <div className="error-icon">⚠</div>
+          <div className="error-title">Could not load risk map</div>
+          <div className="error-msg">{error}</div>
+        </div>
+      )}
     </div>
   );
 }

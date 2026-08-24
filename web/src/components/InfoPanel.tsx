@@ -17,17 +17,16 @@ interface InfoPanelProps {
   onClose: () => void;
 }
 
-const BAND_BG: Record<string, string> = {
-  green: "#22c55e",
-  amber: "#f59e0b",
-  red: "#ef4444",
+const BAND_META: Record<string, { label: string; icon: string; cssClass: string }> = {
+  green: { label: "Safe", icon: "\u2714", cssClass: "info-badge-green" },
+  amber: { label: "Watch", icon: "\u26A0", cssClass: "info-badge-amber" },
+  red:   { label: "Act now", icon: "\u26A0\u26A0", cssClass: "info-badge-red" },
 };
 
 function pickAudioKey(cell: CellData): string {
   const hasSpray = cell.spray_start_hour !== null;
   if (cell.band === "green") return hasSpray ? "green_soon" : "green_none";
   if (cell.band === "red") return hasSpray ? "red_now" : "red_nowindow";
-  // amber
   return hasSpray ? "amber_now" : "amber_wait";
 }
 
@@ -62,6 +61,8 @@ export default function InfoPanel({ cell, onClose }: InfoPanelProps) {
 
   if (!cell) return null;
 
+  const meta = BAND_META[cell.band] ?? BAND_META.green;
+
   const handleListen = () => {
     if (playing && audioRef.current) {
       audioRef.current.pause();
@@ -91,14 +92,11 @@ export default function InfoPanel({ cell, onClose }: InfoPanelProps) {
       </button>
 
       <div className="info-header">
-        <span
-          className="info-badge"
-          style={{ backgroundColor: BAND_BG[cell.band] ?? "#888" }}
-        >
-          {cell.band.toUpperCase()}
+        <span className={`info-badge ${meta.cssClass}`}>
+          {meta.icon} {meta.label}
         </span>
         <span className="info-risk">
-          Risk: {(cell.risk * 100).toFixed(0)}%
+          {(cell.risk * 100).toFixed(0)}%
         </span>
         <span className={`info-conf info-conf-${cell.confidence_label}`}>
           {cell.confidence_label}
@@ -107,11 +105,11 @@ export default function InfoPanel({ cell, onClose }: InfoPanelProps) {
 
       <div className="info-body">
         <div className="info-row">
-          <span className="info-label">Accumulated DSV</span>
+          <span className="info-label">DSV</span>
           <span className="info-value">{cell.accumulated_dsv}</span>
         </div>
         <div className="info-row">
-          <span className="info-label">Criterion alert</span>
+          <span className="info-label">Alert streak</span>
           <span className="info-value">
             {cell.criterion_alert ? "⚠ Yes" : "No"}
           </span>
@@ -123,7 +121,7 @@ export default function InfoPanel({ cell, onClose }: InfoPanelProps) {
         <p className="info-reason">{cell.reason}</p>
         {cell.confidence_label === "low" && (
           <p className="info-confidence-warn">
-            ⚠️ Lower confidence here - our nearest weather points disagree. Worth checking your field directly.
+            ⚠ Lower confidence here — our nearest weather points disagree. Worth checking your field directly.
           </p>
         )}
 
