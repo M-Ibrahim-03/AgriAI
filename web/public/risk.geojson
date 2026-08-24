@@ -13281,7 +13281,7 @@
         "band": "red",
         "accumulated_dsv": 0,
         "criterion_alert": true,
-        "reason": "2 back-to-back days with 12h of humidity above 90% and min temp 27C"
+        "reason": "2 back-to-back days with 13h of humidity above 90% and min temp 27C"
       }
     },
     {
@@ -31004,7 +31004,7 @@
         "band": "red",
         "accumulated_dsv": 0,
         "criterion_alert": true,
-        "reason": "2 back-to-back days with 12h of humidity above 90% and min temp 27C"
+        "reason": "2 back-to-back days with 11h of humidity above 90% and min temp 27C"
       }
     },
     {
@@ -38589,7 +38589,7 @@
         "band": "red",
         "accumulated_dsv": 0,
         "criterion_alert": true,
-        "reason": "2 back-to-back days with 11h of humidity above 90% and min temp 27C"
+        "reason": "2 back-to-back days with 12h of humidity above 90% and min temp 27C"
       }
     },
     {
@@ -46877,7 +46877,7 @@
         "band": "red",
         "accumulated_dsv": 0,
         "criterion_alert": true,
-        "reason": "2 back-to-back days with 12h of humidity above 90% and min temp 27C"
+        "reason": "2 back-to-back days with 11h of humidity above 90% and min temp 27C"
       }
     },
     {
@@ -48505,7 +48505,7 @@
         "band": "red",
         "accumulated_dsv": 0,
         "criterion_alert": true,
-        "reason": "2 back-to-back days with 10h of humidity above 90% and min temp 27C"
+        "reason": "2 back-to-back days with 11h of humidity above 90% and min temp 27C"
       }
     },
     {
@@ -52723,7 +52723,7 @@
         "band": "red",
         "accumulated_dsv": 0,
         "criterion_alert": true,
-        "reason": "2 back-to-back days with 12h of humidity above 90% and min temp 27C"
+        "reason": "2 back-to-back days with 11h of humidity above 90% and min temp 27C"
       }
     },
     {
@@ -58569,7 +58569,7 @@
         "band": "red",
         "accumulated_dsv": 0,
         "criterion_alert": true,
-        "reason": "2 back-to-back days with 11h of humidity above 90% and min temp 27C"
+        "reason": "2 back-to-back days with 12h of humidity above 90% and min temp 27C"
       }
     },
     {
@@ -63786,7 +63786,7 @@
         "band": "red",
         "accumulated_dsv": 0,
         "criterion_alert": true,
-        "reason": "2 back-to-back days with 10h of humidity above 90% and min temp 27C"
+        "reason": "2 back-to-back days with 9h of humidity above 90% and min temp 27C"
       }
     },
     {
@@ -64674,7 +64674,7 @@
         "band": "red",
         "accumulated_dsv": 0,
         "criterion_alert": true,
-        "reason": "2 back-to-back days with 12h of humidity above 90% and min temp 27C"
+        "reason": "2 back-to-back days with 13h of humidity above 90% and min temp 27C"
       }
     },
     {
@@ -71926,7 +71926,7 @@
         "band": "red",
         "accumulated_dsv": 0,
         "criterion_alert": true,
-        "reason": "2 back-to-back days with 11h of humidity above 90% and min temp 27C"
+        "reason": "2 back-to-back days with 10h of humidity above 90% and min temp 27C"
       }
     },
     {
@@ -72000,7 +72000,7 @@
         "band": "red",
         "accumulated_dsv": 0,
         "criterion_alert": true,
-        "reason": "2 back-to-back days with 11h of humidity above 90% and min temp 27C"
+        "reason": "2 back-to-back days with 10h of humidity above 90% and min temp 27C"
       }
     },
     {
@@ -72111,7 +72111,7 @@
         "band": "red",
         "accumulated_dsv": 0,
         "criterion_alert": true,
-        "reason": "2 back-to-back days with 10h of humidity above 90% and min temp 27C"
+        "reason": "2 back-to-back days with 11h of humidity above 90% and min temp 27C"
       }
     },
     {
@@ -78179,7 +78179,7 @@
         "band": "red",
         "accumulated_dsv": 0,
         "criterion_alert": true,
-        "reason": "2 back-to-back days with 11h of humidity above 90% and min temp 27C"
+        "reason": "2 back-to-back days with 12h of humidity above 90% and min temp 27C"
       }
     },
     {
@@ -82841,118 +82841,118 @@
         "band": "red",
         "accumulated_dsv": 0,
         "criterion_alert": true,
+        "reason": "2 back-to-back days with 10h of humidity above 90% and min temp 27C"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              78.26,
+              27.29
+            ],
+            [
+              78.27000000000001,
+              27.29
+            ],
+            [
+              78.27000000000001,
+              27.3
+            ],
+            [
+              78.26,
+              27.3
+            ],
+            [
+              78.26,
+              27.29
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "risk": 0.75,
+        "band": "red",
+        "accumulated_dsv": 0,
+        "criterion_alert": true,
+        "reason": "2 back-to-back days with 10h of humidity above 90% and min temp 27C"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              78.27,
+              27.29
+            ],
+            [
+              78.28,
+              27.29
+            ],
+            [
+              78.28,
+              27.3
+            ],
+            [
+              78.27,
+              27.3
+            ],
+            [
+              78.27,
+              27.29
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "risk": 0.75,
+        "band": "red",
+        "accumulated_dsv": 0,
+        "criterion_alert": true,
+        "reason": "2 back-to-back days with 10h of humidity above 90% and min temp 27C"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              78.28,
+              27.29
+            ],
+            [
+              78.29,
+              27.29
+            ],
+            [
+              78.29,
+              27.3
+            ],
+            [
+              78.28,
+              27.3
+            ],
+            [
+              78.28,
+              27.29
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "risk": 0.75,
+        "band": "red",
+        "accumulated_dsv": 0,
+        "criterion_alert": true,
         "reason": "2 back-to-back days with 9h of humidity above 90% and min temp 27C"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              78.26,
-              27.29
-            ],
-            [
-              78.27000000000001,
-              27.29
-            ],
-            [
-              78.27000000000001,
-              27.3
-            ],
-            [
-              78.26,
-              27.3
-            ],
-            [
-              78.26,
-              27.29
-            ]
-          ]
-        ]
-      },
-      "properties": {
-        "risk": 0.75,
-        "band": "red",
-        "accumulated_dsv": 0,
-        "criterion_alert": true,
-        "reason": "2 back-to-back days with 10h of humidity above 90% and min temp 27C"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              78.27,
-              27.29
-            ],
-            [
-              78.28,
-              27.29
-            ],
-            [
-              78.28,
-              27.3
-            ],
-            [
-              78.27,
-              27.3
-            ],
-            [
-              78.27,
-              27.29
-            ]
-          ]
-        ]
-      },
-      "properties": {
-        "risk": 0.75,
-        "band": "red",
-        "accumulated_dsv": 0,
-        "criterion_alert": true,
-        "reason": "2 back-to-back days with 10h of humidity above 90% and min temp 27C"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              78.28,
-              27.29
-            ],
-            [
-              78.29,
-              27.29
-            ],
-            [
-              78.29,
-              27.3
-            ],
-            [
-              78.28,
-              27.3
-            ],
-            [
-              78.28,
-              27.29
-            ]
-          ]
-        ]
-      },
-      "properties": {
-        "risk": 0.75,
-        "band": "red",
-        "accumulated_dsv": 0,
-        "criterion_alert": true,
-        "reason": "2 back-to-back days with 10h of humidity above 90% and min temp 27C"
       }
     },
     {
@@ -84284,7 +84284,7 @@
         "band": "red",
         "accumulated_dsv": 0,
         "criterion_alert": true,
-        "reason": "2 back-to-back days with 10h of humidity above 90% and min temp 27C"
+        "reason": "2 back-to-back days with 10h of humidity above 90% and min temp 28C"
       }
     },
     {
@@ -84321,7 +84321,7 @@
         "band": "red",
         "accumulated_dsv": 0,
         "criterion_alert": true,
-        "reason": "2 back-to-back days with 10h of humidity above 90% and min temp 28C"
+        "reason": "2 back-to-back days with 10h of humidity above 90% and min temp 27C"
       }
     },
     {
@@ -84987,7 +84987,7 @@
         "band": "red",
         "accumulated_dsv": 0,
         "criterion_alert": true,
-        "reason": "2 back-to-back days with 10h of humidity above 90% and min temp 27C"
+        "reason": "2 back-to-back days with 9h of humidity above 90% and min temp 27C"
       }
     },
     {
@@ -99898,7 +99898,7 @@
         "band": "red",
         "accumulated_dsv": 0,
         "criterion_alert": true,
-        "reason": "2 back-to-back days with 11h of humidity above 90% and min temp 28C"
+        "reason": "2 back-to-back days with 10h of humidity above 90% and min temp 28C"
       }
     },
     {
