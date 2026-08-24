@@ -4,6 +4,7 @@ import MapPanel from "./components/MapPanel";
 import InfoPanel from "./components/InfoPanel";
 import TimeSlider from "./components/TimeSlider";
 import LedgerPage from "./components/LedgerPage";
+import OfflineBanner from "./components/OfflineBanner";
 import "./App.css";
 
 const GEOJSON_URLS = [
@@ -38,6 +39,7 @@ function MapView() {
   const [selected, setSelected] = useState<Feature | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [fetchedAt, setFetchedAt] = useState<Date | null>(null);
 
   useEffect(() => {
     setSelected(null);
@@ -50,6 +52,7 @@ function MapView() {
       })
       .then((data: GeoJSON) => {
         setGeojson(data);
+        setFetchedAt(new Date());
         setLoading(false);
       })
       .catch((e) => {
@@ -64,6 +67,7 @@ function MapView() {
 
   return (
     <div className="app">
+      <OfflineBanner fetchedAt={fetchedAt} />
       <div className="top-bar">
         <a href="/" className="top-bar-link">← Home</a>
         <span className="top-bar-title">PRAHARI</span>
