@@ -31,6 +31,8 @@ class CellRisk:
     accumulated_dsv: int
     criterion_alert: bool
     reason: str          # short plain-English explanation
+    confidence: float = 1.0
+    confidence_label: str = "high"
 
 
 def _build_reason(
@@ -72,6 +74,8 @@ def score_cell(
     hourly_rh_by_day: list[list[float]],
     hourly_temp_by_day: list[list[float]],
     model: DiseaseModel,
+    *,
+    confidence: float = 1.0,
 ) -> CellRisk:
     """Return a risk score for one grid cell over a multi-day window."""
     day_flags: list[bool] = []
@@ -101,11 +105,20 @@ def score_cell(
 
     reason = _build_reason(model, day_flags, alert, wet_hours_seen, min_temp_seen)
 
+    if confidence >= 0.7:
+        conf_label = "high"
+    elif confidence >= 0.4:
+        conf_label = "medium"
+    else:
+        conf_label = "low"
+
     return CellRisk(
         risk=risk,
         accumulated_dsv=accumulated,
         criterion_alert=alert,
         reason=reason,
+        confidence=confidence,
+        confidence_label=conf_label,
     )
 
 

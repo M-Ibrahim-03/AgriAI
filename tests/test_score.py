@@ -77,3 +77,33 @@ def test_score_cell_empty():
     assert result.risk == 0.0
     assert result.criterion_alert is False
     assert band(result.risk) == "green"
+
+
+
+# -- confidence --------------------------------------------------------
+
+def test_score_cell_default_confidence():
+    days = [_cold_dry_day() for _ in range(3)]
+    result = score_cell([d[0] for d in days], [d[1] for d in days], COLD_DRY_MODEL)
+    assert result.confidence == 1.0
+    assert result.confidence_label == "high"
+
+
+def test_score_cell_low_confidence():
+    days = [_cold_dry_day() for _ in range(3)]
+    result = score_cell(
+        [d[0] for d in days], [d[1] for d in days], COLD_DRY_MODEL,
+        confidence=0.2,
+    )
+    assert result.confidence == 0.2
+    assert result.confidence_label == "low"
+
+
+def test_score_cell_medium_confidence():
+    days = [_cold_dry_day() for _ in range(3)]
+    result = score_cell(
+        [d[0] for d in days], [d[1] for d in days], COLD_DRY_MODEL,
+        confidence=0.5,
+    )
+    assert result.confidence == 0.5
+    assert result.confidence_label == "medium"

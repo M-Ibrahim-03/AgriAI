@@ -1,6 +1,6 @@
 """Tests for engine/interpolate.py – pure interpolation functions."""
 
-from engine.interpolate import bilinear, temp_with_lapse
+from engine.interpolate import bilinear, temp_with_lapse, interpolation_confidence, surrounding_values
 
 
 def test_exact_node_returns_node_values():
@@ -42,3 +42,46 @@ def test_temp_with_lapse_colder_at_higher_cell():
 def test_temp_with_lapse_same_elevation():
     """Same elevation should return the original temperature."""
     assert temp_with_lapse(25.0, 500.0, 500.0) == 25.0
+
+
+
+# -- interpolation_confidence -------------------------------------------
+
+def test_interpolation_confidence_identical_values():
+    assert interpolation_confidence([10.0, 10.0, 10.0, 10.0]) == 1.0
+
+
+def test_interpolation_confidence_spread_at_25pct():
+    # mean=10, spread=2.5 -> ratio=0.25 -> confidence=0.0
+    assert interpolation_confidence([8.75, 11.25]) == 0.0
+
+
+def test_interpolation_confidence_empty():
+    assert interpolation_confidence([]) == 0.0
+
+
+def test_interpolation_confidence_single_node():
+    assert interpolation_confidence([42.0]) == 1.0
+
+
+def test_interpolation_confidence_zero_mean():
+    assert interpolation_confidence([0.0, 0.0]) == 1.0
+    assert interpolation_confidence([-1.0, 1.0]) == 0.0
+
+
+# -- surrounding_values ------------------------------------------------
+
+def test_surrounding_values_returns_four_nodes():
+    nodes = {
+        (10.0, 20.0): {"rh": [80.0], "temp": [20.0]},
+        (10.0, 20.1): {"rh": [81.0], "temp": [21.0]},
+        (10.1, 20.0): {"rh": [82.0], "temp": [22.0]},
+        (10.1, 20.1): {"rh": [83.0], "temp": [23.0]},
+    }
+    vals = surrounding_values(10.05, 20.05, nodes, "rh")
+    assert len(vals) == 4
+    assert sorted(v[0] for v in vals) == [80.0, 81.0, 82.0, 83.0]
+
+
+def test_surrounding_values_empty_nodes():
+    assert surrounding_values(10.0, 20.0, {}, "rh") == []

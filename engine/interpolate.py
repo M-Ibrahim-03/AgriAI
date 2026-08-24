@@ -72,3 +72,48 @@ def temp_with_lapse(
     """Adjust temperature for altitude difference using a standard lapse rate.
     Never apply lapse correction to humidity – RH does not follow a lapse rate."""
     return temp_c + (node_elev_m - cell_elev_m) / 1000.0 * lapse_c_per_km
+
+
+def surrounding_values(
+    target_lat: float,
+    target_lon: float,
+    nodes: dict[tuple[float, float], dict],
+    key: str,
+) -> list[list[float]]:
+    """Return the hourly arrays from the 4 surrounding lattice nodes for *key*."""
+    if not nodes:
+        return []
+    lats = sorted({lat for lat, _ in nodes})
+    lons = sorted({lon for _, lon in nodes})
+
+    def _bracket(vals, target):
+        for i, v in enumerate(vals):
+            if v >= target:
+                lo = vals[i - 1] if i > 0 else v
+                return lo, v
+        return vals[-1], vals[-1]
+
+    lat_lo, lat_hi = _bracket(lats, target_lat)
+    lon_lo, lon_hi = _bracket(lons, target_lon)
+    corners = [
+        (lat_lo, lon_lo), (lat_lo, lon_hi),
+        (lat_hi, lon_lo), (lat_hi, lon_hi),
+    ]
+    return [list(nodes[c].get(key, [])) for c in corners]
+
+
+def interpolation_confidence(node_values: list[float]) -> float:
+    """Confidence 0.0-1.0 from spread between surrounding node values.
+    Spread near zero -> 1.0, spread >= 25% of mean -> 0.0, linear between."""
+    if not node_values:
+        return 0.0
+    n = len(node_values)
+    if n < 2:
+        return 1.0
+    mean = sum(node_values) / n
+    if mean == 0.0:
+        spread = max(node_values) - min(node_values)
+        return 1.0 if spread == 0 else 0.0
+    spread = max(node_values) - min(node_values)
+    ratio = spread / abs(mean)
+    return max(0.0, min(1.0, 1.0 - ratio / 0.25))

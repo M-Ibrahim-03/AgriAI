@@ -9,6 +9,7 @@ const BAND_COLORS: Record<string, string> = {
 };
 
 const BAND_OPACITY = 0.6;
+const LOW_CONF_OPACITY = 0.3;
 
 interface Feature {
   geometry: { coordinates: number[][][] };
@@ -18,6 +19,8 @@ interface Feature {
     accumulated_dsv: number;
     criterion_alert: boolean;
     reason: string;
+    confidence: number;
+    confidence_label: string;
   };
 }
 
@@ -28,6 +31,34 @@ interface GeoJSON {
 interface MapPanelProps {
   geojson: GeoJSON | null;
   onSelect: (feature: Feature | null) => void;
+}
+
+function Legend() {
+  return (
+    <div className="map-legend">
+      <div className="legend-title">Risk Band</div>
+      <div className="legend-item">
+        <span className="legend-swatch" style={{ background: BAND_COLORS.green }} />
+        <span>Green — Low risk</span>
+      </div>
+      <div className="legend-item">
+        <span className="legend-swatch" style={{ background: BAND_COLORS.amber }} />
+        <span>Amber — Monitor</span>
+      </div>
+      <div className="legend-item">
+        <span className="legend-swatch" style={{ background: BAND_COLORS.red }} />
+        <span>Red — High risk</span>
+      </div>
+      <div className="legend-divider" />
+      <div className="legend-item">
+        <span className="legend-swatch legend-swatch-hatched" />
+        <span>Hatched = lower confidence</span>
+      </div>
+      <div className="legend-note">
+        We're interpolating across disagreeing weather stations.
+      </div>
+    </div>
+  );
 }
 
 export default function MapPanel({ geojson, onSelect }: MapPanelProps) {
@@ -75,14 +106,14 @@ export default function MapPanel({ geojson, onSelect }: MapPanelProps) {
     if (!map || !geojson) return;
 
     const sourceId = "risk-cells";
-    const layerId = "risk-fill";
+    const fillId = "risk-fill";
+    const hatchBorderId = "risk-hatch-border";
 
-    if (map.getLayer(layerId)) {
-      map.removeLayer(layerId);
+    // Clean up old layers
+    for (const id of [hatchBorderId, fillId]) {
+      if (map.getLayer(id)) map.removeLayer(id);
     }
-    if (map.getSource(sourceId)) {
-      map.removeSource(sourceId);
-    }
+    if (map.getSource(sourceId)) map.removeSource(sourceId);
 
     map.addSource(sourceId, {
       type: "geojson",
@@ -96,41 +127,63 @@ export default function MapPanel({ geojson, onSelect }: MapPanelProps) {
       },
     });
 
+    // Fill layer — low-confidence cells get reduced opacity
     map.addLayer({
-      id: layerId,
+      id: fillId,
       type: "fill",
       source: sourceId,
       paint: {
         "fill-color": [
           "match",
           ["get", "band"],
-          "green",
-          BAND_COLORS.green,
-          "amber",
-          BAND_COLORS.amber,
-          "red",
-          BAND_COLORS.red,
+          "green", BAND_COLORS.green,
+          "amber", BAND_COLORS.amber,
+          "red", BAND_COLORS.red,
           "#888888",
         ],
-        "fill-opacity": BAND_OPACITY,
+        "fill-opacity": [
+          "case",
+          ["==", ["get", "confidence_label"], "low"],
+          LOW_CONF_OPACITY,
+          BAND_OPACITY,
+        ],
       },
     });
 
-    map.on("click", layerId, (e: maplibregl.MapMouseEvent & { features?: maplibregl.MapGeoJSONFeature[] }) => {
+    // Dashed border for low-confidence cells
+    map.addLayer({
+      id: hatchBorderId,
+      type: "line",
+      source: sourceId,
+      filter: ["==", ["get", "confidence_label"], "low"],
+      paint: {
+        "line-color": "#6b7280",
+        "line-width": 1.5,
+        "line-dasharray": [4, 3],
+      },
+    });
+
+    // Click handler
+    map.on("click", fillId, (e: maplibregl.MapMouseEvent & { features?: maplibregl.MapGeoJSONFeature[] }) => {
       const feature = e.features?.[0] as Feature | undefined;
       if (feature) {
         onSelect(feature);
       }
     });
 
-    map.on("mouseenter", layerId, () => {
+    map.on("mouseenter", fillId, () => {
       map.getCanvas().style.cursor = "pointer";
     });
 
-    map.on("mouseleave", layerId, () => {
+    map.on("mouseleave", fillId, () => {
       map.getCanvas().style.cursor = "";
     });
   }, [geojson, onSelect]);
 
-  return <div ref={containerRef} className="map-container" />;
+  return (
+    <div className="map-wrapper">
+      <div ref={containerRef} className="map-container" />
+      <Legend />
+    </div>
+  );
 }

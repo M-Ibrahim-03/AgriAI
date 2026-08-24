@@ -4,6 +4,8 @@ interface CellData {
   accumulated_dsv: number;
   criterion_alert: boolean;
   reason: string;
+  confidence: number;
+  confidence_label: string;
 }
 
 interface InfoPanelProps {
@@ -36,6 +38,9 @@ export default function InfoPanel({ cell, onClose }: InfoPanelProps) {
         <span className="info-risk">
           Risk: {(cell.risk * 100).toFixed(0)}%
         </span>
+        <span className={`info-conf info-conf-${cell.confidence_label}`}>
+          {cell.confidence_label}
+        </span>
       </div>
 
       <div className="info-body">
@@ -49,7 +54,16 @@ export default function InfoPanel({ cell, onClose }: InfoPanelProps) {
             {cell.criterion_alert ? "⚠ Yes" : "No"}
           </span>
         </div>
+        <div className="info-row">
+          <span className="info-label">Confidence</span>
+          <span className="info-value">{(cell.confidence * 100).toFixed(0)}%</span>
+        </div>
         <p className="info-reason">{cell.reason}</p>
+        {cell.confidence_label === "low" && (
+          <p className="info-confidence-warn">
+            ⚠️ Lower confidence here - our nearest weather points disagree. Worth checking your field directly.
+          </p>
+        )}
       </div>
     </div>
   );

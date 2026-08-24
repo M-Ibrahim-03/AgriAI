@@ -17,7 +17,7 @@ from adapters.weather import (
     load_cache,
     save_cache,
 )
-from engine.interpolate import bilinear
+from engine.interpolate import bilinear, interpolation_confidence, surrounding_values
 from engine.score import DiseaseModel, band, score_cell
 from engine.spray_window import find_spray_windows, best_window_before_risk, describe_window
 from adapters.ledger import append_run
@@ -142,7 +142,17 @@ def main() -> None:
         rh_days = _reshape_to_days(interp["rh"])
         temp_days = _reshape_to_days(interp["temp"])
 
-        risk_result = score_cell(rh_days, temp_days, MODEL)
+        # Confidence from surrounding node spread
+        _rh_nodes = surrounding_values(lat, lon, weather, "rh")
+        _temp_nodes = surrounding_values(lat, lon, weather, "temp")
+        _rh_means = [sum(v) / max(len(v), 1) for v in _rh_nodes]
+        _temp_means = [sum(v) / max(len(v), 1) for v in _temp_nodes]
+        _conf = min(
+            interpolation_confidence(_rh_means),
+            interpolation_confidence(_temp_means),
+        )
+
+        risk_result = score_cell(rh_days, temp_days, MODEL, confidence=_conf)
         colour = band(risk_result.risk)
         band_counts[colour] = band_counts.get(colour, 0) + 1
 
@@ -188,6 +198,8 @@ def main() -> None:
                 "spray_end_hour": _spray_end,
                 "spray_quality": _spray_quality,
                 "spray_text": _spray_text,
+                "confidence": risk_result.confidence,
+                "confidence_label": risk_result.confidence_label,
             },
         })
 

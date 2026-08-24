@@ -19,6 +19,8 @@ interface Feature {
     accumulated_dsv: number;
     criterion_alert: boolean;
     reason: string;
+    confidence: number;
+    confidence_label: string;
   };
 }
 
